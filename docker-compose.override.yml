@@ -1,0 +1,54 @@
+version: '3.4'
+
+services:
+  PostgreDB:
+    container_name: PostgreDB
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  Pgadmin:
+    container_name: Pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=serkanince444@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=123qwe
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+    links:
+       - PostgreDB
+    depends_on:
+      - PostgreDB
+
+
+  product.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8000:80"
+    depends_on:
+      - PostgreDB
+    links:
+          - PostgreDB
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  #product.api:
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=https://+:443;http://+:80
+  #  ports:
+  #    - "80"
+  #    - "443"
+  #  volumes:
+  #    - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

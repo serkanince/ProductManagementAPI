@@ -1,0 +1,19 @@
+version: '3.4'
+
+
+services:
+  PostgreDB:
+    image: postgres:14.1-alpine
+
+  Pgadmin:
+    image: dpage/pgadmin4
+
+  product.api:
+    image: ${DOCKER_REGISTRY-}productapi
+    build:
+      context: .
+      dockerfile: Product.Api/Dockerfile
+
+volumes:
+  postgres_data:
+  pgadmin_data:
