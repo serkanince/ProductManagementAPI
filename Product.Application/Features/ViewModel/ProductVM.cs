@@ -8,11 +8,11 @@ namespace Product.Application.Features.ViewModel
 {
     public class ProductVM
     {
-        public long Id { get; set; }
+        public int ProductId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public string Stock { get; set; }
-        public CategoryVM Category { get; set; }
+        public int Stock { get; set; }
+        public virtual CategoryVM Category { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Product.Application.Contract
     public interface IAsyncRepository<T> where T : BaseEntity
     {
         Task<IReadOnlyList<T>> GetAllAsync();
-        Task<T> GetByIdAsync(long id);
+        Task<T> GetByIdAsync(int id);
 
         Task<T> AddAsync(T entity);
 

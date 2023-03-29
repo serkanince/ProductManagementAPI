@@ -9,6 +9,7 @@ namespace Product.Application.Mapping
         public MappingConfig()
         {
             CreateMap<ProductEntity, ProductVM>().ReverseMap();
+            CreateMap<CategoryEntity, CategoryVM>().ReverseMap();
         }
     }
 }

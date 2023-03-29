@@ -10,9 +10,9 @@ namespace Product.Application.Features.Query
 {
     public class GetProductQuery : IRequest<ProductVM>
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
-        public GetProductQuery(long id)
+        public GetProductQuery(int id)
         {
             Id = id;
         }

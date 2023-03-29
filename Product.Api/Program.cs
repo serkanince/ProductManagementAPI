@@ -1,5 +1,7 @@
 
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Product.Application.Features.Query;
 using Product.Application.IoC;
 using Product.Infrastructure.IoC;
 using Product.Infrastructure.Persistence;
@@ -25,25 +27,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/product", async (IMediator mediator) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var query = new GetAllProductQuery();
+    return await mediator.Send(query);
+});
+app.MapGet("/product/{id}", async (int id, IMediator mediator) =>
+{
+    var query = new GetProductQuery(id);
+    return await mediator.Send(query);
+});
 
 using (var scope = app.Services.CreateScope())
 {
@@ -57,8 +52,3 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
