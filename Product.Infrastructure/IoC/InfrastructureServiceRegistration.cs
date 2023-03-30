@@ -11,9 +11,7 @@ namespace Product.Infrastructure.IoC
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ProductDBContext>(options =>
-            options.UseLazyLoadingProxies().UseNpgsql(configuration["Database:ProductConnection"], b => b.MigrationsAssembly("Product.Api")));
-
+            services.AddEntityFrameworkNpgsql().AddDbContext<ProductDBContext>(opt => opt.UseLazyLoadingProxies().UseNpgsql(configuration["Database:ProductConnection"], b => b.MigrationsAssembly("Product.Api")));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IProductRepository, ProductRepository>();

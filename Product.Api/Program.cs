@@ -64,13 +64,13 @@ app.MapGet("/product/query/category/{name}", async (string name, IMediator media
     var query = new GetProductByCategoryQuery(name);
 
     return await mediator.Send(query);
-});
+}).Produces<IReadOnlyList<ProductVM>>(StatusCodes.Status200OK);
 app.MapGet("/product/query/stock/{min}/{max}", async (int min,int max, IMediator mediator) =>
 {
     var query = new GetProductByStockQuery(min, max);
 
     return await mediator.Send(query);
-});
+}).Produces<IReadOnlyList<ProductVM>>(StatusCodes.Status200OK);
 app.MapGet("/product/query/{json}", async (string json, IMediator mediator) =>
 {
     try
@@ -134,9 +134,3 @@ using (var scope = app.Services.CreateScope())
 app.Run();
 
 public partial class Program { }
-public class GeoPoint
-{
-    GeoPoint(string Latitude, string Longitude) { }
-    public string Latitude { get; set; }
-    public string Longitude { get; set; }
-}

@@ -11,6 +11,7 @@ namespace Product.Application.Features.Query
         public GetAllProductQuery(string title = "", string description = "")
         {
             Title = title;
+            Description = description;
         }
 
     }

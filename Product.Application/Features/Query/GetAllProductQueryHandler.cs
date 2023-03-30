@@ -24,7 +24,6 @@ namespace Product.Application.Features.Query
 
         public async Task<IReadOnlyList<ProductVM>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
-
             var _list = _productRepository.GetAll().AsEnumerable();
             var dtoProperties = request.GetType().GetProperties();
 
