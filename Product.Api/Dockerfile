@@ -13,10 +13,10 @@ COPY ["Product.Infrastructure/Product.Infrastructure.csproj", "Product.Infrastru
 RUN dotnet restore "Product.Api/Product.Api.csproj"
 COPY . .
 WORKDIR "/src/Product.Api"
-RUN dotnet build "Product.Api.csproj" -c Release -o /app/build
+RUN dotnet build "Product.Api.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Product.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "Product.Api.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
