@@ -10,7 +10,7 @@ It will be enough to run!
 docker compose up -d --build
 ```
 
-## Key Features
+## Technology Stack
 
 - [x] `.Net 6`
 - [x] `Minimal API` 
