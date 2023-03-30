@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Microsoft.OpenApi.Models;
 using Product.Application.Features.ViewModel;
+using FluentValidation;
+using Product.Api.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,9 @@ builder.Services.AddSwaggerGen(options =>
         },
     });
 });
+
+builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
+builder.Services.AddScoped<IValidator<AddCategoryCommand>, AddCategoryValidator>();
 
 var app = builder.Build();
 
@@ -79,10 +84,15 @@ app.MapGet("/product/query/{json}", async (string json, IMediator mediator) =>
     }
 
 }).Produces<IReadOnlyList<ProductVM>>(StatusCodes.Status200OK);
-app.MapPost("/product", async (AddProductCommand input, IMediator mediator) =>
+app.MapPost("/product", async (AddProductCommand input, IMediator mediator, IValidator<AddProductCommand> validator) =>
 {
-    ModelState
-    return await mediator.Send(input);
+    var validationResult = await validator.ValidateAsync(input);
+    if (!validationResult.IsValid)
+    {
+        return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+    
+    return Results.Ok(await mediator.Send(input));
 });
 #endregion
 
@@ -98,9 +108,15 @@ app.MapGet("/category/{id}", async (int id, IMediator mediator) =>
 
     return await mediator.Send(query);
 });
-app.MapPost("/category", async (AddCategoryCommand input, IMediator mediator) =>
+app.MapPost("/category", async (AddCategoryCommand input, IMediator mediator, IValidator<AddCategoryCommand> validator) =>
 {
-    return await mediator.Send(input);
+    var validationResult = await validator.ValidateAsync(input);
+    if (!validationResult.IsValid)
+    {
+        return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    return Results.Ok(await mediator.Send(input));
 });
 #endregion
 
