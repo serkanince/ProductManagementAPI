@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,5 +18,8 @@ namespace Product.Application.Contract
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
+
+        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate);
+        IQueryable<T> GetAll();
     }
 }

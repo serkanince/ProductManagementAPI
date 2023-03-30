@@ -24,11 +24,22 @@ namespace Product.Application.Features.Query
 
         public async Task<IReadOnlyList<ProductVM>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
-            var _list = await _productRepository.GetAllAsync();
 
-            var personViews = _mapper.Map<IReadOnlyList<ProductVM>>(_list);
+            var _list = _productRepository.GetAll().AsEnumerable();
+            var dtoProperties = request.GetType().GetProperties();
 
-            return personViews;
+            foreach (var property in dtoProperties)
+            {
+                var value = property.GetValue(request, null);
+
+                if (value != null && !string.IsNullOrEmpty(value.ToString().Trim()))
+                {
+                    var entityProperty = typeof(ProductEntity).GetProperty(property.Name);
+                    _list = _list.Where(e => entityProperty.GetValue(e).ToString().Contains(value.ToString()));
+                }
+            }
+
+            return _mapper.Map<IReadOnlyList<ProductVM>>(_list.ToList());
         }
     }
 }

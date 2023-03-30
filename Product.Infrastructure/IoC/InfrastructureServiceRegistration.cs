@@ -17,6 +17,7 @@ namespace Product.Infrastructure.IoC
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
         }
     }

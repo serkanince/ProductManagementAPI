@@ -10,24 +10,22 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Query
 {
-    public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductVM>
+    public class GetProductByStockQueryHandler : IRequestHandler<GetProductByStockQuery, IReadOnlyList<ProductVM>>
     {
-
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public GetProductQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetProductByStockQueryHandler(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-
-        public async Task<ProductVM> Handle(GetProductQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<ProductVM>> Handle(GetProductByStockQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(request.Id);
+            var _list = _productRepository.GetAll(x => x.Stock >= request.Min && x.Stock <= request.Max);
+            return _mapper.Map<IReadOnlyList<ProductVM>>(_list.ToList());
 
-            return _mapper.Map<ProductVM>(product);            
         }
     }
 }

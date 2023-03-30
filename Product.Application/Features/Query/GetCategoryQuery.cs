@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Query
 {
-    public class GetProductQuery : IRequest<ProductVM>
+    public class GetCategoryQuery : IRequest<CategoryVM>
     {
         public int Id { get; set; }
 
-
-        public GetProductQuery(int id)
+        public GetCategoryQuery(int id)
         {
             Id = id;
         }

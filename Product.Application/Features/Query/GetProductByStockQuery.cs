@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Query
 {
-    public class GetProductQuery : IRequest<ProductVM>
+    public class GetProductByStockQuery : IRequest<IReadOnlyList<ProductVM>>
     {
-        public int Id { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
 
-
-        public GetProductQuery(int id)
+        public GetProductByStockQuery(int min = 0, int max = 0)
         {
-            Id = id;
+            Max = max;
+            Min = min;
         }
     }
 }
