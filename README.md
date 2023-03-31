@@ -34,7 +34,7 @@ docker compose up -d --build
 
 ### How to run the project:
 
-> Before you must install a .Net 6 [Download .Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+> You must install a .Net 6 before run [Download .Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
 * Clone the repository to your local machine.
 * Open the solution in Visual Studio or any other compatible IDE.
