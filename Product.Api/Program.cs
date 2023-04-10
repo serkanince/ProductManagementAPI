@@ -1,18 +1,16 @@
 
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Product.Api.Validator;
+using Product.Application.Features.Command;
 using Product.Application.Features.Query;
+using Product.Application.Features.ViewModel;
 using Product.Application.IoC;
 using Product.Infrastructure.IoC;
 using Product.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Http;
-using Product.Application.Features.Command;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Microsoft.OpenApi.Models;
-using Product.Application.Features.ViewModel;
-using FluentValidation;
-using Product.Api.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -91,7 +89,6 @@ app.MapPost("/product", async (AddProductCommand input, IMediator mediator, IVal
     {
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
-
     await mediator.Send(input);
     return Results.Ok();
 });
