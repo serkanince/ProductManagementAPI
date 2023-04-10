@@ -9,6 +9,5 @@ namespace Product.Application.Contract
 {
     public interface IProductRepository : IAsyncRepository<ProductEntity>
     {
-
     }
 }

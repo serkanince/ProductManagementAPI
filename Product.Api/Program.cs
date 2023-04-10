@@ -91,8 +91,9 @@ app.MapPost("/product", async (AddProductCommand input, IMediator mediator, IVal
     {
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
-    
-    return Results.Ok(await mediator.Send(input));
+
+    await mediator.Send(input);
+    return Results.Ok();
 });
 #endregion
 
@@ -115,8 +116,8 @@ app.MapPost("/category", async (AddCategoryCommand input, IMediator mediator, IV
     {
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
-
-    return Results.Ok(await mediator.Send(input));
+    await mediator.Send(input);
+    return Results.Ok();
 });
 #endregion
 
