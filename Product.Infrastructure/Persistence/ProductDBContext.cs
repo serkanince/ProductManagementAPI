@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Product.Domain.Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Product.Infrastructure.Persistence
 {
@@ -13,10 +8,15 @@ namespace Product.Infrastructure.Persistence
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<CategoryEntity> Category { get; set; }
 
-
         public ProductDBContext(DbContextOptions<ProductDBContext> options) : base(options)
         {
         }
+
+        //
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    options.UseLazyLoadingProxies().UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=ProductDB;Pooling=false;Timeout=1024;CommandTimeout=1024;");
+        //}
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

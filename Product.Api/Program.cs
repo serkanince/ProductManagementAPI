@@ -14,9 +14,6 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddServiceRegistration();
-builder.Services.AddInfrastructureServices(builder.Configuration);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -34,6 +31,10 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 builder.Services.AddScoped<IValidator<AddCategoryCommand>, AddCategoryValidator>();
+
+
+builder.Services.AddServiceRegistration();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -128,6 +129,7 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
+
 
 app.Run();
 
