@@ -9,17 +9,21 @@ using Product.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Product.Api.Migrations
+namespace Product.Infrastructure.Migrations
 {
     [DbContext(typeof(ProductDBContext))]
-    [Migration("20230328191008_initial")]
+    [Migration("20230410134859_initial")]
     partial class initial
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -53,14 +57,14 @@ namespace Product.Api.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(168),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5406),
                             MinimumStock = 200,
                             Name = "Mobile Phone"
                         },
                         new
                         {
                             CategoryId = 2,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(206),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5464),
                             MinimumStock = 150,
                             Name = "PC"
                         });
@@ -108,7 +112,7 @@ namespace Product.Api.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(225),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5490),
                             Description = "Best mobile phone ever, buy it !",
                             Price = 0m,
                             Stock = 100,
@@ -118,7 +122,7 @@ namespace Product.Api.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(227),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5493),
                             Description = "Best mobile phone ever, buy it !",
                             Price = 0m,
                             Stock = 100,
@@ -128,7 +132,7 @@ namespace Product.Api.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 2,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(228),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5495),
                             Description = "Best personel computer ever, buy it !",
                             Price = 0m,
                             Stock = 100,
@@ -138,7 +142,7 @@ namespace Product.Api.Migrations
                         {
                             ProductId = 4,
                             CategoryId = 2,
-                            CreateDate = new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(229),
+                            CreateDate = new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5497),
                             Description = "Best personel computer ever, buy it !",
                             Price = 0m,
                             Stock = 100,

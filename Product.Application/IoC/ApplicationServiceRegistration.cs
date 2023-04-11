@@ -6,12 +6,10 @@ namespace Product.Application.IoC
 {
     public static class ApplicationServiceRegistration
     {
-        public static IServiceCollection AddServiceRegistration(this IServiceCollection services)
+        public static void AddServiceRegistration(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            return services;
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
     }
 }

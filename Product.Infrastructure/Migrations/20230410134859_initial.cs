@@ -4,10 +4,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Product.Api.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace Product.Infrastructure.Migrations
 {
+    /// <inheritdoc />
     public partial class initial : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -56,8 +60,8 @@ namespace Product.Api.Migrations
                 columns: new[] { "CategoryId", "CreateDate", "MinimumStock", "ModifyDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(168), 200, null, "Mobile Phone" },
-                    { 2, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(206), 150, null, "PC" }
+                    { 1, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5406), 200, null, "Mobile Phone" },
+                    { 2, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5464), 150, null, "PC" }
                 });
 
             migrationBuilder.InsertData(
@@ -65,10 +69,10 @@ namespace Product.Api.Migrations
                 columns: new[] { "ProductId", "CategoryId", "CreateDate", "Description", "ModifyDate", "Price", "Stock", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(225), "Best mobile phone ever, buy it !", null, 0m, 100, "iPhone 14" },
-                    { 2, 1, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(227), "Best mobile phone ever, buy it !", null, 0m, 100, "iPhone 14 PRO" },
-                    { 3, 2, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(228), "Best personel computer ever, buy it !", null, 0m, 100, "Mac M1 128GB" },
-                    { 4, 2, new DateTime(2023, 3, 28, 22, 10, 8, 238, DateTimeKind.Utc).AddTicks(229), "Best personel computer ever, buy it !", null, 0m, 100, "Mac M2 256GB" }
+                    { 1, 1, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5490), "Best mobile phone ever, buy it !", null, 0m, 100, "iPhone 14" },
+                    { 2, 1, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5493), "Best mobile phone ever, buy it !", null, 0m, 100, "iPhone 14 PRO" },
+                    { 3, 2, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5495), "Best personel computer ever, buy it !", null, 0m, 100, "Mac M1 128GB" },
+                    { 4, 2, new DateTime(2023, 4, 10, 16, 48, 59, 166, DateTimeKind.Utc).AddTicks(5497), "Best personel computer ever, buy it !", null, 0m, 100, "Mac M2 256GB" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -77,6 +81,7 @@ namespace Product.Api.Migrations
                 column: "CategoryId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

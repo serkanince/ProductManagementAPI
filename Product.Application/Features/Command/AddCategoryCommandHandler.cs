@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Command
 {
-    public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand>
+    public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand,Unit>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;

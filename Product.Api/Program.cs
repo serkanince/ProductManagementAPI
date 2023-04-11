@@ -1,23 +1,20 @@
 
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Product.Api.Validator;
+using Product.Application.Features.Command;
 using Product.Application.Features.Query;
+using Product.Application.Features.ViewModel;
 using Product.Application.IoC;
 using Product.Infrastructure.IoC;
 using Product.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Http;
-using Product.Application.Features.Command;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Microsoft.OpenApi.Models;
-using Product.Application.Features.ViewModel;
-using FluentValidation;
-using Product.Api.Validator;
+using Serilog;
+using Product.Api.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddServiceRegistration();
-builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -37,7 +34,22 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 builder.Services.AddScoped<IValidator<AddCategoryCommand>, AddCategoryValidator>();
 
+//Exception handle middleware with 'Problem Details Standard' 
+//https://www.rfc-editor.org/rfc/rfc7807
+//read more https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-dotnet-7-preview-7/#new-problem-details-service
+builder.Services.AddProblemDetails();
+
+builder.Services.AddServiceRegistration();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
+builder.Host.UseSerilog(SeriLogConfig.Configure);
+
 var app = builder.Build();
+
+//Exception handle middleware
+app.UseExceptionHandler();
+app.UseStatusCodePages();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -46,6 +58,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseHttpLogging();
+
 
 #region Product Endpoint
 app.MapGet("/product", async (IMediator mediator) =>
@@ -73,15 +87,8 @@ app.MapGet("/product/query/stock/{min}/{max}", async (int min,int max, IMediator
 }).Produces<IReadOnlyList<ProductVM>>(StatusCodes.Status200OK);
 app.MapGet("/product/query/{json}", async (string json, IMediator mediator) =>
 {
-    try
-    {
-        GetAllProductQuery query = JsonSerializer.Deserialize<GetAllProductQuery>(json);
-        return Results.Ok(await mediator.Send(query));
-    }
-    catch (Exception)
-    {
-        return Results.BadRequest();
-    }
+    GetAllProductQuery query = JsonSerializer.Deserialize<GetAllProductQuery>(json);
+    return Results.Ok(await mediator.Send(query));
 
 }).Produces<IReadOnlyList<ProductVM>>(StatusCodes.Status200OK);
 app.MapPost("/product", async (AddProductCommand input, IMediator mediator, IValidator<AddProductCommand> validator) =>
@@ -91,8 +98,8 @@ app.MapPost("/product", async (AddProductCommand input, IMediator mediator, IVal
     {
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
-    
-    return Results.Ok(await mediator.Send(input));
+    await mediator.Send(input);
+    return Results.Ok();
 });
 #endregion
 
@@ -115,8 +122,8 @@ app.MapPost("/category", async (AddCategoryCommand input, IMediator mediator, IV
     {
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
-
-    return Results.Ok(await mediator.Send(input));
+    await mediator.Send(input);
+    return Results.Ok();
 });
 #endregion
 
@@ -130,6 +137,8 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
+
+
 
 app.Run();
 

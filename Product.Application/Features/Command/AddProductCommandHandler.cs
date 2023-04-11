@@ -5,7 +5,7 @@ using Product.Domain.Entites;
 
 namespace Product.Application.Features.Command
 {
-    public class AddProductCommandHandler : IRequestHandler<AddProductCommand>
+    public class AddProductCommandHandler : IRequestHandler<AddProductCommand,Unit>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;

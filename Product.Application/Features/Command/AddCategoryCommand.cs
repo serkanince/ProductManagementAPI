@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Command
 {
-    public class AddCategoryCommand : IRequest
+    public class AddCategoryCommand : IRequest<Unit>
     {
         public string Name { get; set; }
         public int MinimumStock { get; set; }

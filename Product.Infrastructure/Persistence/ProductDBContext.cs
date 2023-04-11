@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Product.Domain.Entites;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace Product.Infrastructure.Persistence
 {
@@ -13,10 +10,15 @@ namespace Product.Infrastructure.Persistence
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<CategoryEntity> Category { get; set; }
 
-
         public ProductDBContext(DbContextOptions<ProductDBContext> options) : base(options)
         {
         }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    options.UseLazyLoadingProxies().UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=ProductDB;Pooling=false;Timeout=1024;CommandTimeout=1024;");
+        //}
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -39,11 +41,17 @@ namespace Product.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Case : Product should have a minimum stock quantity in Category level and Products with stock quantity
+            //under this limit cannot be live.
+            //Global Query Filters is best solution for the case.. More reading https://learn.microsoft.com/en-us/ef/core/querying/filters
+            modelBuilder.Entity<ProductEntity>().HasQueryFilter(p => p.Stock >= p.Category.MinimumStock);
+
+
             modelBuilder.Entity<CategoryEntity>(x => x.HasData(new CategoryEntity()
             {
                 CategoryId = 1,
                 Name = "Mobile Phone",
-                MinimumStock = 200,
+                MinimumStock = 50,
                 CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
             }));
 
@@ -51,7 +59,7 @@ namespace Product.Infrastructure.Persistence
             {
                 CategoryId = 2,
                 Name = "PC",
-                MinimumStock = 150,
+                MinimumStock = 50,
                 CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
             }));
 
