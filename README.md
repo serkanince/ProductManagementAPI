@@ -2,7 +2,7 @@
 
 ## Description
 
-This example project is a solution for the e-commerce merchandising management system, which aims to create a business flow for CRUD transactions in the "Product" domain. The project is developed using .NET 6, Minimal API, Domain-driven Design (DDD), Command Query Responsibility Segregation (CQRS), and MediatR pattern.
+This example project is a solution for the e-commerce merchandising management system, which aims to create a business flow for CRUD transactions in the "Product" domain. The project is developed using .NET 7, Minimal API, Domain-driven Design (DDD), Command Query Responsibility Segregation (CQRS), and MediatR pattern.
 
 It will be enough to run!
 
