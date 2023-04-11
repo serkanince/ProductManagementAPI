@@ -9,10 +9,14 @@ It will be enough to run!
 ```
 docker compose up -d --build
 ```
+and browse api in Swagger
+```
+http://localhost:8000/swagger/index.html
+```
 
 ## Technology Stack
 
-- [x] `.Net 6`
+- [x] `.Net 7`
 - [x] `Minimal API` 
 - [x] `Open API` with Swagger
 - [x] `Dockerize` with Docker Compose
@@ -34,7 +38,7 @@ docker compose up -d --build
 
 ### How to run the project:
 
-> You must install a .Net 6 before run [Download .Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+> You must install a .Net 6 before run [Download .Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
 * Clone the repository to your local machine.
 * Open the solution in Visual Studio or any other compatible IDE.
