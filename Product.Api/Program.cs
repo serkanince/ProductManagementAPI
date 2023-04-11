@@ -11,6 +11,8 @@ using Product.Application.IoC;
 using Product.Infrastructure.IoC;
 using Product.Infrastructure.Persistence;
 using System.Text.Json;
+using Serilog;
+using Product.Api.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +38,12 @@ builder.Services.AddScoped<IValidator<AddCategoryCommand>, AddCategoryValidator>
 builder.Services.AddServiceRegistration();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
+builder.Host.UseSerilog(SeriLogConfig.Configure);
+
 var app = builder.Build();
+
+
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -45,6 +52,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseHttpLogging();
+
 
 #region Product Endpoint
 app.MapGet("/product", async (IMediator mediator) =>
@@ -129,6 +138,7 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
+
 
 
 app.Run();
